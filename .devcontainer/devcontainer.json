@@ -13,7 +13,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo apt-get install git bash-completion"
+	"postCreateCommand": "sudo apt-get install bash-completion"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
