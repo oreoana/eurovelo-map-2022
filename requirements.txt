@@ -9,7 +9,10 @@ conda-package-handling==1.7.0+0.g7c4a471.dirty
 coverage==6.5.0
 cryptography==2.9.2
 exceptiongroup==1.0.1
+fit2gpx==0.0.6
+fitdecode==0.10.0
 folium==0.13.0
+gpxpy==1.5.0
 idna==3.4
 iniconfig==1.1.1
 Jinja2==3.1.2
@@ -26,7 +29,10 @@ pytest==7.2.0
 pytest-cov==4.0.0
 requests==2.28.1
 ruamel-yaml==0.15.87
-six==1.15.0
 tomli==2.0.1
 tqdm==4.46.0
+pandas==1.5.1
+python-dateutil==2.8.2
+pytz==2022.6
+six==1.16.0
 urllib3==1.26.12
