@@ -9,6 +9,7 @@ class RadRouter():
         return path_to_config
 
 if __name__ == "__main__":
+    rad = RadRouter()
     if len(sys.argv) != 2:
         raise ValueError("Expected path to config file as argument")
-    process(sys.argv[1])
+    rad.process(sys.argv[1])
