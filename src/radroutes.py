@@ -2,7 +2,7 @@
 
 import sys
 import os
-from schema import Schema, SchemaError, And
+from schema import Schema, SchemaError, Optional
 import yaml
 import fit2gpx
 import folium
@@ -33,6 +33,7 @@ class RadRouter():
         self.add_antpath(all_coordinates_list, map)
         self.fit_map(all_coordinates_list, map)
 
+        folium.LayerControl().add_to(map)
         map.save('map.html')
         print('Map saved.')
 
@@ -51,8 +52,8 @@ class RadRouter():
                 'directory': os.path.exists,
                 'segments': [{
                     'file_name': str,
-                    'title': str,
-                    'description': str
+                    Optional('title'): str,
+                    Optional('description'): str
                 }]
             }
         })
@@ -70,11 +71,14 @@ class RadRouter():
         speed = pd.concat(coordinates_list)['speed']
         normalization = 800 / speed.max()
 
+        feature_group = folium.FeatureGroup(name = 'Ant Path', show = True)
+        map.add_child(feature_group)
+
         for coordinates in coordinates_list:
             plugins.AntPath(
-                coordinates[['latitude', 'longitude']],
-                delay = coordinates['speed'].mean() * normalization,
-            ).add_to(map)
+                locations=coordinates[['latitude', 'longitude']],
+                delay=coordinates['speed'].mean() * normalization,
+            ).add_to(feature_group)
 
     def fit_map(self, coordinates_list, map):
         coordinates_df = pd.concat(coordinates_list)[['latitude', 'longitude']]
