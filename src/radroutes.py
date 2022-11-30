@@ -69,7 +69,7 @@ class RadRouter():
     def add_antpath(self, coordinates_list, map):
         # AntPath delay range is 1 to 800. We normalize the max speed from input files against the max of 800.
         speed = pd.concat(coordinates_list)['speed']
-        normalization = 800 / speed.max()
+        normalization = 800.0 / speed.max()
 
         feature_group = folium.FeatureGroup(name = 'Ant Path', show = True)
         map.add_child(feature_group)
