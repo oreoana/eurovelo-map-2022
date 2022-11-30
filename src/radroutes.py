@@ -24,7 +24,7 @@ class RadRouter():
         # convert each file to a dataframe and create a list of dataframes
         for segment in segments:
             segment_path = directory + segment['file_name']
-            df_laps, df_coordinates = conv.fit_to_dataframes(segment_path)
+            _, df_coordinates = conv.fit_to_dataframes(segment_path)
             df_coordinates['file_name'] = segment['file_name']
 
             all_coordinates_list.append(df_coordinates)
