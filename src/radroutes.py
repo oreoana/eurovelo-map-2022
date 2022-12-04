@@ -29,9 +29,7 @@ class RadRouter():
 
             all_coordinates_list.append(df_coordinates[['longitude', 'latitude']].values.tolist())
         
-        # self.add_antpath(all_coordinates_list, map)
         self.add_geojson_line(all_coordinates_list, map)
-        self.fit_map(all_coordinates_list, map)
 
         # folium.LayerControl().add_to(map)
         map.save('map.html')
@@ -84,38 +82,18 @@ class RadRouter():
                         'coordinates': coordinates_list
                     },
                     'properties': {
-                        'color': 'black'
+                        'highlight': True
                     },
                 },
             ]
         }
 
-        folium.GeoJson(
+        segment_layer = folium.GeoJson(
             geojson_features,
             zoom_on_click=True
         ).add_to(map)
 
-    def add_antpath(self, coordinates_list, map):
-        # AntPath delay range is 1 to 800. We normalize the max speed from input files against the max of 800.
-        speed = pd.concat(coordinates_list)['speed']
-        normalization = 800.0 / speed.max()
-
-        feature_group = folium.FeatureGroup(name = 'Ant Path', show = True)
-        map.add_child(feature_group)
-
-        for coordinates in coordinates_list:
-            plugins.AntPath(
-                locations=coordinates[['latitude', 'longitude']],
-                delay=coordinates['speed'].mean() * normalization,
-            ).add_to(feature_group)
-
-    def fit_map(self, coordinates_list, map):
-        coordinates_df = pd.concat(coordinates_list)[['latitude', 'longitude']]
-
-        southwest_bound = coordinates_df.min().tolist()
-        northeast_bound = coordinates_df.max().tolist()
-
-        map.fit_bounds([southwest_bound, northeast_bound])
+        map.fit_bounds(segment_layer.get_bounds())
 
 if __name__ == "__main__":
     # if len(sys.argv) != 2:
