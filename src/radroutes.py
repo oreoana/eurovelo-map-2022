@@ -27,7 +27,7 @@ class RadRouter():
             _, df_coordinates = conv.fit_to_dataframes(segment_path)
             df_coordinates['file_name'] = segment['file_name']
 
-            all_coordinates_list.append(df_coordinates[['longitude', 'latitude']].values.tolist())
+            all_coordinates_list.append(df_coordinates)
         
         self.add_geojson_line(all_coordinates_list, map)
 
@@ -70,27 +70,35 @@ class RadRouter():
         # step 2: oreo adds popups to geojson
         # step 3: oreo adds markers
         # step 4: animate / play button
-        #for coordinates in coordinates_list:
+
+        segment_features = []
+
+        for coordinates in coordinates_list:
+            feature = {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': coordinates[['longitude', 'latitude']].values.tolist(),
+                },
+                'properties': {
+                    'weight': 5,
+                },
+            }
+
+            segment_features.append(feature)
 
         geojson_features = {
             'type': 'FeatureCollection',
-            'features': [
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'MultiLineString',
-                        'coordinates': coordinates_list
-                    },
-                    'properties': {
-                        'highlight': True
-                    },
-                },
-            ]
+            'features': segment_features
         }
 
         segment_layer = folium.GeoJson(
             geojson_features,
-            zoom_on_click=True
+            zoom_on_click=True,
+            highlight_function=lambda x: {
+                'color': 'green',
+                'weight': 10,
+            }
         ).add_to(map)
 
         map.fit_bounds(segment_layer.get_bounds())
