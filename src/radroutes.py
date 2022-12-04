@@ -27,13 +27,13 @@ class RadRouter():
             _, df_coordinates = conv.fit_to_dataframes(segment_path)
             df_coordinates['file_name'] = segment['file_name']
 
-            all_coordinates_list.append(df_coordinates)
-
-        # add check to see if speed exists in dataframe
-        self.add_antpath(all_coordinates_list, map)
+            all_coordinates_list.append(df_coordinates[['longitude', 'latitude']].values.tolist())
+        
+        # self.add_antpath(all_coordinates_list, map)
+        self.add_geojson_line(all_coordinates_list, map)
         self.fit_map(all_coordinates_list, map)
 
-        folium.LayerControl().add_to(map)
+        # folium.LayerControl().add_to(map)
         map.save('map.html')
         print('Map saved.')
 
@@ -41,9 +41,9 @@ class RadRouter():
         try:
             with open(path_to_config, 'r') as config_file:
                 activities = yaml.safe_load(config_file)
-            print(f"Successfully opened config file: {path_to_config}")
+            print(f'Successfully opened config file: {path_to_config}')
         except IOError:
-            print(f"Could not find file: {path_to_config}")
+            print(f'Could not find file: {path_to_config}')
             sys.exit(1)
 
         # need to add check that individual files exist
@@ -66,6 +66,34 @@ class RadRouter():
             sys.exit(1)
 
         return activities
+
+    def add_geojson_line(self, coordinates_list, map):
+        # step 1: convert antpaths to geojson
+        # step 2: oreo adds popups to geojson
+        # step 3: oreo adds markers
+        # step 4: animate / play button
+        #for coordinates in coordinates_list:
+
+        geojson_features = {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                    'type': 'Feature',
+                    'geometry': {
+                        'type': 'MultiLineString',
+                        'coordinates': coordinates_list
+                    },
+                    'properties': {
+                        'color': 'black'
+                    },
+                },
+            ]
+        }
+
+        folium.GeoJson(
+            geojson_features,
+            zoom_on_click=True
+        ).add_to(map)
 
     def add_antpath(self, coordinates_list, map):
         # AntPath delay range is 1 to 800. We normalize the max speed from input files against the max of 800.
