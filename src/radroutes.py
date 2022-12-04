@@ -2,7 +2,7 @@
 
 import sys
 import os
-from schema import Schema, SchemaError, Optional
+from schema import Schema, SchemaError, Use, Optional, And
 import yaml
 import fit2gpx
 import folium
@@ -49,7 +49,7 @@ class RadRouter():
         # need to add check that individual files exist
         expected_schema = Schema({
             'activities': {
-                'directory': os.path.exists,
+                'directory': And(os.path.exists, error='Invalid directory'),
                 'segments': [{
                     'file_name': str,
                     Optional('title'): str,
@@ -62,7 +62,8 @@ class RadRouter():
             expected_schema.validate(activities)
             print('Config file is valid.')
         except SchemaError as se:
-            raise se
+            print(se)
+            sys.exit(1)
 
         return activities
 
