@@ -25,10 +25,12 @@ class RadRouter():
         for segment in segments:
             segment_path = os.path.join(directory, segment['file_name'])
             _, df_coordinates = conv.fit_to_dataframes(segment_path)
-            df_coordinates['file_name'] = segment['file_name']
+            df_coordinates['file_name'] = segment.get('file_name')
+            df_coordinates['title'] = segment.get('title')
+            df_coordinates['description'] = segment.get('description')
 
             all_coordinates_list.append(df_coordinates)
-        
+
         self.add_geojson_line(all_coordinates_list, map)
 
         # folium.LayerControl().add_to(map)
@@ -82,6 +84,7 @@ class RadRouter():
                 },
                 'properties': {
                     'weight': 5,
+                    'title': coordinates['title'].iat[0],
                 },
             }
 
@@ -98,7 +101,10 @@ class RadRouter():
             highlight_function=lambda x: {
                 'color': 'green',
                 'weight': 10,
-            }
+            },
+            popup=folium.GeoJsonPopup(
+                fields=['title']
+            )
         ).add_to(map)
 
         map.fit_bounds(segment_layer.get_bounds())
