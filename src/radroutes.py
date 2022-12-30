@@ -10,6 +10,14 @@ from folium import plugins
 import pandas as pd
 
 class RadRouter():
+    def generate_popup_html(self, coordinates):
+        html="""
+            <h2>""" + coordinates['title'].iat[0] + """</h2><br>
+            <p>""" + coordinates['description'].iat[0] + """</p>
+            """
+
+        return html
+
     def process_activities(self, path_to_config):
         # Consumes a path to a config file and generates a map.
         activities = self.validate_config(path_to_config)
@@ -26,8 +34,8 @@ class RadRouter():
             segment_path = os.path.join(directory, segment['file_name'])
             _, df_coordinates = conv.fit_to_dataframes(segment_path)
             df_coordinates['file_name'] = segment.get('file_name')
-            df_coordinates['title'] = segment.get('title')
-            df_coordinates['description'] = segment.get('description')
+            df_coordinates['title'] = segment.get('title', 'none')
+            df_coordinates['description'] = segment.get('description', 'none')
 
             all_coordinates_list.append(df_coordinates)
 
@@ -85,6 +93,7 @@ class RadRouter():
                 'properties': {
                     'weight': 5,
                     'title': coordinates['title'].iat[0],
+                    'html': self.generate_popup_html(coordinates),
                 },
             }
 
@@ -103,7 +112,8 @@ class RadRouter():
                 'weight': 10,
             },
             popup=folium.GeoJsonPopup(
-                fields=['title']
+                fields=['html'],
+                labels=False,
             )
         ).add_to(map)
 
