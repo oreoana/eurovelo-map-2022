@@ -2,12 +2,11 @@
 
 import sys
 import os
-from schema import Schema, SchemaError, Use, Optional, And
+from schema import Schema, SchemaError, Optional, And
 import yaml
 import fit2gpx
 import folium
 from folium import plugins
-import pandas as pd
 
 class RadRouter():
     def generate_popup_html(self, coordinates):
