@@ -93,7 +93,6 @@ class RadRouter():
                 },
                 'properties': {
                     'weight': 5,
-                    'title': coordinates['title'].iat[0],
                     'html': self.generate_popup_html(coordinates),
                 },
             }
