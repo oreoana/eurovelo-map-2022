@@ -10,10 +10,10 @@ from folium import plugins
 
 class RadRouter():
     def generate_popup_html(self, coordinates):
-        html="""
-            <h2>""" + coordinates['title'].iat[0] + """</h2><br>
-            <p>""" + coordinates['description'].iat[0] + """</p>
-            """
+        html = " ".join(["<h2>", coordinates['title'].iat[0], "</h2><br><p>", coordinates['description'].iat[0], "</p>"])
+
+        if coordinates['image'].iat[0] is not None:
+            html = " ".join([html, "<br><img style = \"width: auto; height: 200px\" src = ",  coordinates['image'].iat[0], ">"])
 
         return html
 
@@ -33,8 +33,9 @@ class RadRouter():
             segment_path = os.path.join(directory, segment['file_name'])
             _, df_coordinates = conv.fit_to_dataframes(segment_path)
             df_coordinates['file_name'] = segment.get('file_name')
-            df_coordinates['title'] = segment.get('title', 'none')
-            df_coordinates['description'] = segment.get('description', 'none')
+            df_coordinates['title'] = segment.get('title', 'Title')
+            df_coordinates['description'] = segment.get('description', 'Description goes here!')
+            df_coordinates['image'] = segment.get('image')
 
             all_coordinates_list.append(df_coordinates)
 
@@ -60,7 +61,8 @@ class RadRouter():
                 'segments': [{
                     'file_name': str,
                     Optional('title'): str,
-                    Optional('description'): str
+                    Optional('description'): str,
+                    Optional('image'): str
                 }]
             }
         })
