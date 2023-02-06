@@ -13,7 +13,7 @@ environment)
 
 # Use
 After installation, simply run `python radoutes.py`. The map HTML file will be saved in the
-top-level directory. For an example, run `python radroutes.py examples/activities.py`.
+top-level directory. For an example, run `python radroutes.py examples/activities.yml --out_file_path examples`.
 
 # Testing
 
@@ -23,4 +23,3 @@ from the top-level directory.
 
 We also use the [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/) plugin to measure code coverage.
 To use, run `pytest --cov src/ test/` from the top-level directory.
-

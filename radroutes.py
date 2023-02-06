@@ -1,14 +1,19 @@
 #!/usr/bin/env python 
 
+import argparse
 import sys
 import os
 from schema import Schema, SchemaError, Optional, And
 import yaml
 import fit2gpx
 import folium
-from folium import plugins
 
 class RadRouter():
+    def __init__(self, path_to_config_file, path_to_output_file):
+        self.config_file_path = path_to_config_file
+        self.out_file_path = path_to_output_file
+        self.map = None
+
     def generate_popup_html(self, coordinates):
         html = " ".join(["<h2>", coordinates['title'].iat[0], "</h2><br><p>", coordinates['description'].iat[0], "</p>"])
 
@@ -42,7 +47,8 @@ class RadRouter():
         self.add_geojson_line(all_coordinates_list, map)
 
         # folium.LayerControl().add_to(map)
-        map.save('map.html')
+        output_file = "/".join([self.out_file_path, 'map.html'])
+        map.save(output_file)
         print('Map saved.')
 
     def validate_config(self, path_to_config):
@@ -120,10 +126,17 @@ class RadRouter():
         map.fit_bounds(segment_layer.get_bounds())
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        raise ValueError("Expected path to config file as argument")
+    parser=argparse.ArgumentParser(
+        description='''Rad-ify your routes! Accepts a configuration file with title,
+        description, and optional picture for your activity and creates an interactive
+        HTML map of your activities and content.''',
+        epilog="""Tell a story with your activities.""")
+    parser.add_argument('config_file_path', type=str, help='path to config YAML file')
+    parser.add_argument('--out_file_path', type=str, default='.', help='path to output HTML file')
+    args=parser.parse_args()
     
-    path_to_config_file = sys.argv[1]
+    path_to_config_file = args.config_file_path
+    path_to_output_file = args.out_file_path
 
-    rr = RadRouter()
+    rr = RadRouter(path_to_config_file, path_to_output_file)
     rr.process_activities(path_to_config_file)
