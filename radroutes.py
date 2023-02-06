@@ -120,8 +120,10 @@ class RadRouter():
         map.fit_bounds(segment_layer.get_bounds())
 
 if __name__ == "__main__":
-    # if len(sys.argv) != 2:
-    #     raise ValueError("Expected path to config file as argument")
+    if len(sys.argv) != 2:
+        raise ValueError("Expected path to config file as argument")
+    
+    path_to_config_file = sys.argv[1]
 
     rr = RadRouter()
-    rr.process_activities('/workspaces/rad-routes/examples/activity_files/activities.yml')
+    rr.process_activities(path_to_config_file)
