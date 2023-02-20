@@ -1,6 +1,10 @@
 # rad routes
 
-making routes rad
+making routes rad!
+
+* Stitch together multiple activities into a single map that can be viewed in any HTML client
+* Annotate segments with titles and media
+* Mouseover highlighting of each segment on the map
 
 # Installation
 If you are using Codespaces, simply launch the Codespace and it will be provisioned correctly (recommended).
