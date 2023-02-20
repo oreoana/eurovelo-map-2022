@@ -3,17 +3,17 @@
 making routes rad
 
 # Installation
-If you are using Codespaces, simply launch the Codespace and it will be provisioned correctly.
+If you are using Codespaces, simply launch the Codespace and it will be provisioned correctly (recommended).
 
-To install on your local machine:
+To install locally:
 1. clone this repository
-2. `pip install -r requirements.txt` (note: this was developed in a Python 3.10 environment with
-dependencies at the pinned versions in requirements.txt, so you may need to update based on your
+2. `python -m pip install -r requirements.txt` (note: this was developed in a Python 3.10 environment with
+dependencies at the pinned versions in `requirements.txt`, so you may need to update based on your
 environment)
 
 # Use
-After installation, simply run `python radoutes.py`. The map HTML file will be saved in the
-top-level directory. For an example, run `python radroutes.py examples/activities.yml --out_file_path examples`.
+After installation, run `python radoutes.py <path_to_config_file> --out_file_path <path_to_output_file>`.
+To try the provided example: `python radroutes.py examples/activities.yml --out_file_path examples`.
 
 # Testing
 
