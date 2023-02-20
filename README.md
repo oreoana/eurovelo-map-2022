@@ -6,6 +6,8 @@ making routes rad!
 * Annotate segments with titles and media
 * Mouseover highlighting of each segment on the map
 
+![Example](examples/example.gif)
+
 # Installation
 If you are using Codespaces, simply launch the Codespace and it will be provisioned correctly (recommended).
 
