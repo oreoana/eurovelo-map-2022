@@ -1,0 +1,11 @@
+activities:
+  directory: '/workspaces/rad-routes/examples/activity_files/'
+  segments:
+    - file_name: '8223822587.fit'
+      title: Rad touring start
+      description: Rad start to our two-day bike tour in Switzerland!
+      image: 'https://images.unsplash.com/photo-1629107953246-944554aa9741?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YmlrZSUyMHRvdXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60'
+    - file_name: '8230133592.fit'
+      title: Rad touring finish
+      description: Rad finish to our two-day bike tour in Switzerland!
+      image: 'https://images.unsplash.com/photo-1563990308267-cd6d3cc09318?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmlrZSUyMHRvdXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60'
